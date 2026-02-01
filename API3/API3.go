@@ -126,7 +126,7 @@ func callAPI2Handler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		client := &http.Client{Timeout: 10 * time.Second}
 
-		resp, err := client.Get("http://" + vm2_url + ":" + api2_port + "/health")
+		resp, err := client.Get("http://" + vm1_url + ":" + api2_port + "/health")
 
 		// Respuesta NO OK
 		if err != nil || resp.StatusCode != http.StatusOK {
