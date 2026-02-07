@@ -25,27 +25,16 @@ type APIResponse struct {
 
 var vm1_url string = ""
 var vm2_url string = ""
-var api1_port string = ""
-var api2_port string = ""
-var api3_port string = ""
+
+const api1_port string = "8081"
+const api2_port string = "8082"
+const api3_port string = "8083"
 
 func main() {
 	vm1_url = os.Getenv("VM1_URL")
 	vm2_url = os.Getenv("VM2_URL")
-	api1_port = os.Getenv("API1_PORT")
-	api2_port = os.Getenv("API2_PORT")
-	api3_port = os.Getenv("API3_PORT")
 
 	// Valores por defecto si las variables de entorno no están definidas
-	if api1_port == "" {
-		api1_port = "8081"
-	}
-	if api2_port == "" {
-		api2_port = "8082"
-	}
-	if api3_port == "" {
-		api3_port = "8083"
-	}
 	if vm1_url == "" {
 		vm1_url = "localhost"
 	}
@@ -67,12 +56,14 @@ func main() {
 
 func healthHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("GET /health")
+
 		// Construye objeto de respuesta
 		response := HealthResponse{
 			Status:    "UP",
 			Message:   "API3 is Ready",
 			Timestamp: time.Now(),
-			VM:        1,
+			VM:        2,
 			Carnet:    201602929,
 		}
 
@@ -87,6 +78,8 @@ func healthHandler() http.HandlerFunc {
 
 func callAPI1Handler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("GET /api3/201602929/call-api1")
+
 		client := &http.Client{Timeout: 10 * time.Second}
 
 		resp, err := client.Get("http://" + vm1_url + ":" + api1_port + "/health")
@@ -124,6 +117,8 @@ func callAPI1Handler() http.HandlerFunc {
 
 func callAPI2Handler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("GET /api3/201602929/call-api2")
+
 		client := &http.Client{Timeout: 10 * time.Second}
 
 		resp, err := client.Get("http://" + vm1_url + ":" + api2_port + "/health")
