@@ -1,0 +1,10 @@
+[Unit]
+Description=Daemon en Go
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/my_daemon
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
