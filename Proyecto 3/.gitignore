@@ -1,0 +1,3 @@
+Locust/venv/
+Locust/__pycache__/
+API Rust/api_rust/target/
