@@ -5,7 +5,7 @@ use axum::{
 use serde::Deserialize;
 use tokio::net::TcpListener;
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, serde::Serialize, Debug)]
 struct Report {
     country: String,
     warplanes_in_air: i32,
@@ -27,7 +27,30 @@ async fn handle_report(Json(payload): Json<Report>) -> String {
     }
     
     println!("Recibido reporte de: {}", payload.country);
-    format!("Reporte de {} recibido en GKE", payload.country)
+    //format!("Reporte de {} recibido en GKE", payload.country);
+
+    // Aca publicar a API gRPC Client, es otra API REST
+    let client = reqwest::Client::new();
+    let res = client.post("http://localhost:8081/grpc-201602929") // Aca cambiar a la url del API gRPC Client
+        .json(&payload)
+        .send()
+        .await;
+
+    match res {
+        Ok(response) => {
+            if response.status().is_success() {
+                println!("Reporte enviado al API gRPC Client exitosamente");
+                "Status: ok".to_string()
+            } else {
+                println!("Error al enviar reporte al API gRPC Client: {}", response.status());
+                "Status: error".to_string()
+            }
+        }
+        Err(error) => {
+            println!("Error al enviar reporte al API gRPC Client: {}", error);
+            "Error".to_string()
+        }
+    }
 }
 
 #[tokio::main]
