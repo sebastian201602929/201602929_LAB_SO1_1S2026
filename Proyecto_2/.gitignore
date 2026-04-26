@@ -1,0 +1,3 @@
+Grafana/grafana-data/plugins/*
+Grafana/grafana-data/grafana.db
+Grafana/valkey-data/dump.rdb

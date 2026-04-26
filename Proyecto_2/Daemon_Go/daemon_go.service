@@ -3,7 +3,7 @@ Description=Daemon en Go
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/my_daemon
+ExecStart=/usr/local/bin/daemon_p2_201602929
 Restart=always
 
 [Install]
