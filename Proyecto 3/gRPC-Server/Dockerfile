@@ -11,7 +11,7 @@ COPY Proto/ ./proto/
 RUN protoc --go_out=. --go-grpc_out=. proto/report.proto
 
 RUN go mod tidy
-RUN go build -o go-deploy-2 main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o go-deploy-2 main.go
 
 FROM alpine:latest
 WORKDIR /app
