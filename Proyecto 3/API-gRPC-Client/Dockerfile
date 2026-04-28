@@ -15,4 +15,7 @@ RUN go build -o go-deploy-1 main.go
 FROM alpine:latest
 WORKDIR /app
 COPY --from=builder /app/go-deploy-1 .
+
+ENV GRPC_SERVER_TARGET=grpc-server-service.mumnk8s.svc.cluster.local:50051
+
 CMD ["./go-deploy-1"]

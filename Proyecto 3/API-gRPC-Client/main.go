@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 
 	pb "API-gRPC-Client/proto"
 
@@ -19,8 +20,13 @@ type WarReport struct {
 }
 
 func main() {
-	// target := "go-server-svc.mumnk8s.svc.cluster.local:50051" # Esto va con el que se crea en los yaml de kubernetes
-	target := "localhost:50051"
+	// Obtener target desde variable de entorno o usar valor por defecto
+	//target := "grpc-server-service.mumnk8s.svc.cluster.local:50051"
+	//target := "grpc-server-service:50051"
+	target := os.Getenv("GRPC_SERVER_TARGET")
+	if target == "" {
+		target = "localhost:50051"
+	}
 
 	conn, err := grpc.Dial(target, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
