@@ -17,4 +17,7 @@ FROM alpine:latest
 WORKDIR /app
 COPY --from=builder /app/go-deploy-2 .
 EXPOSE 50051
+
+ENV RABBITMQ_URL=amqp://guest:guest@rabbitmq-service.mumnk8s.svc.cluster.local:5672/
+
 CMD ["./go-deploy-2"]
