@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mumnk8s
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-server-deploy
+  namespace: mumnk8s
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grpc-server
+  template:
+    metadata:
+      labels:
+        app: grpc-server
+    spec:
+      containers:
+        - name: grpc-server
+          image: puppy-imaging-props.ngrok-free.dev/grpc-server:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 50051
+          #envFrom:
+          #  - configMapRef:
+          #      name: rabbitmq-config
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-server-service
+  namespace: mumnk8s
+spec:
+  selector:
+    app: grpc-server
+  ports:
+    - protocol: TCP
+      port: 50051
+      targetPort: 50051

@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-proyecto
+  namespace: mumnk8s
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: api-rust-service
+            port:
+              number: 80
+      - path: /grpc-201602929
+        pathType: Prefix
+        backend:
+          service:
+            name: api-rust-service
+            port:
+              number: 80
