@@ -29,9 +29,11 @@ async fn handle_report(Json(payload): Json<Report>) -> String {
     println!("Recibido reporte de: {}", payload.country);
     //format!("Reporte de {} recibido en GKE", payload.country);
 
+    let grpc_client_url = std::env::var("GRPC_CLIENT_URL").unwrap_or_else(|_| "http://localhost:8081/grpc-201602929".to_string());
+
     // Aca publicar a API gRPC Client, es otra API REST
     let client = reqwest::Client::new();
-    let res = client.post("http://localhost:8081/grpc-201602929") // Aca cambiar a la url del API gRPC Client
+    let res = client.post(&grpc_client_url)
         .json(&payload)
         .send()
         .await;
