@@ -6,7 +6,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    vm.kubevirt.io/name: grafana-valkey-vm
+    vm.kubevirt.io/name: valkey-vm
   ports:
     - name: valkey
       port: 6379
