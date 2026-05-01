@@ -58,7 +58,8 @@ func main() {
 	ctx := context.Background()
 
 	rdb := redis.NewClient(&redis.Options{
-		Addr: getEnv("VALKEY_URL", "localhost:6379"),
+		Addr:     getEnv("VALKEY_URL", "localhost:6379"),
+		Password: getEnv("VALKEY_PSWD", ""),
 	})
 
 	rdb.FlushDB(ctx)
