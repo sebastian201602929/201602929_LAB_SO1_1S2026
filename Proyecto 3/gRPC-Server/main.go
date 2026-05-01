@@ -55,13 +55,14 @@ func main() {
 	// Configurar RabbitMQ
 	url := getEnv("RABBITMQ_URL", "amqp://guest:guest@localhost:5672/")
 
-	conn, err := amqp.Dial(url)
+	var err error
+	conn, err = amqp.Dial(url)
 	if err != nil {
 		log.Fatalf("Error al conectar a RabbitMQ: %v", err)
 	}
 	defer conn.Close()
 
-	ch, err := conn.Channel()
+	ch, err = conn.Channel()
 	if err != nil {
 		log.Fatalf("Error al abrir canal: %v", err)
 	}
