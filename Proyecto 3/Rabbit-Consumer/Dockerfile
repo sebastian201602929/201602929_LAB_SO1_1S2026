@@ -13,7 +13,7 @@ WORKDIR /app
 COPY --from=builder /app/go-deploy-3 .
 
 ENV RABBITMQ_URL=amqp://guest:guest@rabbitmq-service.mumnk8s.svc.cluster.local:5672/
-ENV VALKEY_URL=redis://valkey-service.mumnk8s.svc.cluster.local:6379/
+ENV VALKEY_URL=valkey-service.mumnk8s.svc.cluster.local:6379
 ENV VALKEY_PSWD=201602929
 
 CMD ["./go-deploy-3"]
