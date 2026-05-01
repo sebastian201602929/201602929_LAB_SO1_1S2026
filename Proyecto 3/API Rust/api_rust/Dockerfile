@@ -6,6 +6,7 @@ RUN cargo build --release
 
 FROM debian:bookworm-slim
 WORKDIR /app
+RUN apt-get update && apt-get install -y libssl3
 COPY --from=builder /app/target/release/api_rust /usr/local/bin/api_rust
 EXPOSE 8080
 
